@@ -1,60 +1,104 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ILoginParams } from '../../../models/auth';
+import { ILoginParams, ILoginValidation } from '../../../models/auth';
+import { validateLogin, validLogin } from '../utils';
 
-interface Props {}
+interface Props {
+  onLogin(values: ILoginParams): void;
+  loading: boolean;
+}
 
 const LoginForm = (props: Props) => {
-  const [formValues, setFormValues] = React.useState<ILoginParams>({ email: '', password: '' });
+  const { onLogin, loading } = props;
+
+  const [formValues, setFormValues] = React.useState<ILoginParams>({ email: '', password: '', rememberMe: false });
+  const [validate, setValidate] = React.useState<ILoginValidation>();
 
   const onSubmit = React.useCallback(() => {
-    console.log('a');
-  }, []);
+    const validate = validateLogin(formValues);
+
+    setValidate(validate);
+
+    if (!validLogin(validate)) {
+      return;
+    }
+
+    onLogin(formValues);
+  }, [formValues, onLogin]);
 
   return (
     <form
-      style={{ maxWidth: '768px', width: '100%' }}
+      style={{ maxWidth: '560px', width: '100%' }}
       noValidate
       onSubmit={(e) => {
         e.preventDefault();
-        e.currentTarget.checkValidity();
-        console.log(formValues);
+        onSubmit();
       }}
+      className="row g-3 needs-validation"
     >
-      <div className="mb-3 row">
-        <label htmlFor="inputEmail" className="col-sm-2 col-form-label">
+      <div className="col-md-12">
+        <label htmlFor="inputEmail" className="form-label">
           <FormattedMessage id="email" />
         </label>
-        <div className="col-sm-10">
-          <input
-            type="text"
-            className="form-control"
-            id="inputEmail"
-            value={formValues.email}
-            onChange={(e) => setFormValues({ ...formValues, email: e.target.value })}
-          />
+        <input
+          type="text"
+          className="form-control"
+          id="inputEmail"
+          value={formValues.email}
+          onChange={(e) => setFormValues({ ...formValues, email: e.target.value })}
+        />
 
-          <div className="invalid-feedback">Please choose a username.</div>
-        </div>
+        {!!validate?.email && (
+          <small className="text-danger">
+            <FormattedMessage id={validate?.email} />
+          </small>
+        )}
       </div>
-      <div className="mb-3 row">
-        <label htmlFor="inputPassword" className="col-sm-2 col-form-label">
+
+      <div className="col-md-12">
+        <label htmlFor="inputPassword" className="form-label">
           <FormattedMessage id="password" />
         </label>
-        <div className="col-sm-10">
+        <input
+          type="password"
+          className="form-control"
+          id="inputPassword"
+          value={formValues.password}
+          onChange={(e) => setFormValues({ ...formValues, password: e.target.value })}
+        />
+
+        {!!validate?.password && (
+          <small className="text-danger">
+            <FormattedMessage id={validate?.password} />
+          </small>
+        )}
+      </div>
+
+      <div className="col-12">
+        <div className="form-check">
           <input
-            type="password"
-            className="form-control"
-            id="inputPassword"
-            value={formValues.password}
-            onChange={(e) => setFormValues({ ...formValues, password: e.target.value })}
+            className="form-check-input"
+            type="checkbox"
+            id="invalidCheck"
+            value=""
+            checked={formValues.rememberMe}
+            onChange={(e) => setFormValues({ ...formValues, rememberMe: !!e.target.checked })}
           />
+          <label className="form-check-label" htmlFor="invalidCheck">
+            <FormattedMessage id="rememberMe" />
+          </label>
         </div>
       </div>
 
-      <div className="row justify-content-md-center">
+      <div className="row justify-content-md-center" style={{ margin: '16px 0' }}>
         <div className="col-md-auto">
-          <button className="btn btn-primary" type="submit">
+          <button
+            className="btn btn-primary"
+            type="submit"
+            style={{ minWidth: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            disabled={loading}
+          >
+            {loading && <div className="spinner-border text-light" role="status" style={{ marginRight: '8px' }} />}
             <FormattedMessage id="register" />
           </button>
         </div>
