@@ -1,6 +1,5 @@
 import { APIHost } from '../utils/constants';
 
-// eslint-disable-next-line no-unused-vars
 enum APIService {
   auth,
   protected,
@@ -20,5 +19,5 @@ function getBaseUrl(service: APIService) {
 }
 
 export const API_PATHS = {
-  signIn: `${getBaseUrl(APIService.auth)}/signIn`,
+  signIn: `${getBaseUrl(APIService.auth)}/login`,
 };

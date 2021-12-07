@@ -10,7 +10,7 @@ export const setAuthorization = createCustomAction('auth/setAuthorization', (dat
   data,
 }));
 
-const setProfile = createCustomAction('auth/setProfile', (data: IProfile) => ({
+export const setProfile = createCustomAction('auth/setProfile', (data: IProfile) => ({
   data,
 }));
 

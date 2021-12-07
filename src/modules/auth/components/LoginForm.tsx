@@ -6,10 +6,11 @@ import { validateLogin, validLogin } from '../utils';
 interface Props {
   onLogin(values: ILoginParams): void;
   loading: boolean;
+  errorMessage: string;
 }
 
 const LoginForm = (props: Props) => {
-  const { onLogin, loading } = props;
+  const { onLogin, loading, errorMessage } = props;
 
   const [formValues, setFormValues] = React.useState<ILoginParams>({ email: '', password: '', rememberMe: false });
   const [validate, setValidate] = React.useState<ILoginValidation>();
@@ -36,6 +37,12 @@ const LoginForm = (props: Props) => {
       }}
       className="row g-3 needs-validation"
     >
+      {!!errorMessage && (
+        <div className="alert alert-danger" role="alert" style={{ width: '100%' }}>
+          {errorMessage}
+        </div>
+      )}
+
       <div className="col-md-12">
         <label htmlFor="inputEmail" className="form-label">
           <FormattedMessage id="email" />

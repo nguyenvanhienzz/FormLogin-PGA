@@ -1,14 +1,16 @@
-import { createProxyMiddleware } from 'http-proxy-middleware';
+// eslint-disable-next-line no-undef
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const router = {
-  '/api': 'https://apiurl.com',
+  '/api': 'http://api.training.div3.pgtest.co/api/v1',
 };
 
-export default function (app) {
+// eslint-disable-next-line no-undef
+module.exports = function (app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'https://apiurl.com',
+      target: 'http://api.training.div3.pgtest.co/api/v1',
       changeOrigin: true,
       secure: false,
       pathRewrite: {

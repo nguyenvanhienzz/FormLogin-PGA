@@ -8,20 +8,38 @@ import { AppState } from '../../../redux/reducer';
 import { Action } from 'redux';
 import { fetchThunk } from '../../common/redux/thunk';
 import { API_PATHS } from '../../../configs/api';
+import { RESPONSE_STATUS_SUCCESS } from '../../../utils/httpResponseCode';
+import { setProfile } from '../redux/authReducer';
+import Cookies from 'js-cookie';
+import { ACCESS_TOKEN_KEY } from '../../../utils/constants';
+import { ROUTES } from '../../../configs/routes';
+import { replace } from 'connected-react-router';
+import { getErrorMessageResponse } from '../../../utils';
 
-interface Props {}
-
-const LoginPage = (props: Props) => {
+const LoginPage = () => {
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const onLogin = React.useCallback(
     async (values: ILoginParams) => {
+      setErrorMessage('');
       setLoading(true);
 
-      const json = await dispatch(fetchThunk(API_PATHS.signIn, 'post', values));
+      const json = await dispatch(
+        fetchThunk(API_PATHS.signIn, 'post', { email: values.email, password: values.password }),
+      );
 
       setLoading(false);
+
+      if (json?.code === RESPONSE_STATUS_SUCCESS) {
+        dispatch(setProfile(json.data));
+        Cookies.set(ACCESS_TOKEN_KEY, json.accessToken, { expires: values.rememberMe ? 7 : 0 });
+        dispatch(replace(ROUTES.home));
+        return;
+      }
+
+      setErrorMessage(getErrorMessageResponse(json));
     },
     [dispatch],
   );
@@ -39,7 +57,7 @@ const LoginPage = (props: Props) => {
     >
       <img src={logo} alt="" style={{ maxWidth: '250px', margin: '32px' }} />
 
-      <LoginForm onLogin={onLogin} loading={loading} />
+      <LoginForm onLogin={onLogin} loading={loading} errorMessage={errorMessage} />
     </div>
   );
 };
