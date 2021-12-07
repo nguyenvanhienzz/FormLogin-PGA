@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import { ROUTES } from './configs/routes';
+import ProtectedRoute from './modules/common/components/ProtectedRoute';
 
 const HomePage = lazy(() => import('./modules/home/pages/HomePage'));
 const ContactPage = lazy(() => import('./modules/home/pages/ContactPage'));

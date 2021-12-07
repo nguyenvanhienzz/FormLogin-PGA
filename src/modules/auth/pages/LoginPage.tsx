@@ -9,7 +9,7 @@ import { Action } from 'redux';
 import { fetchThunk } from '../../common/redux/thunk';
 import { API_PATHS } from '../../../configs/api';
 import { RESPONSE_STATUS_SUCCESS } from '../../../utils/httpResponseCode';
-import { setProfile } from '../redux/authReducer';
+import { setUserInfo } from '../redux/authReducer';
 import Cookies from 'js-cookie';
 import { ACCESS_TOKEN_KEY } from '../../../utils/constants';
 import { ROUTES } from '../../../configs/routes';
@@ -33,8 +33,8 @@ const LoginPage = () => {
       setLoading(false);
 
       if (json?.code === RESPONSE_STATUS_SUCCESS) {
-        dispatch(setProfile(json.data));
-        Cookies.set(ACCESS_TOKEN_KEY, json.accessToken, { expires: values.rememberMe ? 7 : 0 });
+        dispatch(setUserInfo(json.data));
+        Cookies.set(ACCESS_TOKEN_KEY, json.data.token, { expires: values.rememberMe ? 7 : 0 });
         dispatch(replace(ROUTES.home));
         return;
       }

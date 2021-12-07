@@ -4,7 +4,7 @@ export interface AuthToken {
   tokenType: string;
 }
 
-export interface IProfile {
+export interface IUser {
   id: number;
   email: string;
   name: string;
