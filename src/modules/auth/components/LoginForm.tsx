@@ -98,7 +98,7 @@ const LoginForm = (props: Props) => {
             style={{ minWidth: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             disabled={loading}
           >
-            {loading && <div className="spinner-border text-light" role="status" style={{ marginRight: '8px' }} />}
+            {loading && <div className="spinner-border spinner-border-sm text-light mr-2" role="status" />}
             <FormattedMessage id="register" />
           </button>
         </div>
