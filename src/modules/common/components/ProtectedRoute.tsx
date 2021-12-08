@@ -1,12 +1,14 @@
 import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { ROUTES } from '../../../configs/routes';
+import Cookies from 'js-cookie';
+import { ACCESS_TOKEN_KEY } from '../../../utils/constants';
 
 interface Props extends RouteProps {}
 
 const ProtectedRoute = (props: Props) => {
   const { ...rest } = props;
-  const auth = false;
+  const auth = Cookies.get(ACCESS_TOKEN_KEY);
 
   if (auth) {
     return <Route {...rest} />;
@@ -16,7 +18,6 @@ const ProtectedRoute = (props: Props) => {
     <Redirect
       to={{
         pathname: ROUTES.login,
-        state: { from: location },
       }}
     />
   );
