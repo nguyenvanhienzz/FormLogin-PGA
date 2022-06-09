@@ -14,7 +14,6 @@ function getBaseUrl(service: APIService) {
   } else if (service === APIService.public) {
     return `${APIHost}`;
   }
-
   return '';
 }
 

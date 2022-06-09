@@ -21,6 +21,7 @@ const persistConfig = {
 };
 
 export default function configureStore(preloadedState: any) {
+  
   const sagaMiddleware = createSagaMiddleware();
 
   const persistedReducer = persistReducer(

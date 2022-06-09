@@ -3,23 +3,21 @@ import { validEmailRegex } from '../../utils';
 
 const validateEmail = (email: string) => {
   if (!email) {
-    return 'emailRequire';
+    return 'Vui lòng nhập email';
   }
-
   if (!validEmailRegex.test(email)) {
-    return 'emailInvalid';
+    return 'Email không hợp lệ !';
   }
-
   return '';
 };
 
 const validatePassword = (password: string) => {
   if (!password) {
-    return 'passwordRequire';
+    return 'Vui lòng nhập mật khẩu';
   }
 
   if (password.length < 4) {
-    return 'minPasswordInvalid';
+    return 'Mật khẩu phải lớn hơn 4 kí tự';
   }
 
   return '';

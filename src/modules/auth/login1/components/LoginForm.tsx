@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { ILoginParams, ILoginValidation } from '../../../models/auth';
-import { validateLogin, validLogin } from '../utils';
+import { ILoginParams, ILoginValidation } from '../../../../models/auth';
+import { validateLogin, validLogin } from '../../utils';
 
 interface Props {
   onLogin(values: ILoginParams): void;
@@ -9,7 +9,7 @@ interface Props {
   errorMessage: string;
 }
 
-const LoginForm = (props: Props) => {
+const LoginForm:React.FC<Props> = (props) => {
   const { onLogin, loading, errorMessage } = props;
 
   const [formValues, setFormValues] = React.useState<ILoginParams>({ email: '', password: '', rememberMe: false });
@@ -17,13 +17,10 @@ const LoginForm = (props: Props) => {
 
   const onSubmit = React.useCallback(() => {
     const validate = validateLogin(formValues);
-
     setValidate(validate);
-
     if (!validLogin(validate)) {
       return;
     }
-
     onLogin(formValues);
   }, [formValues, onLogin]);
 
@@ -44,7 +41,7 @@ const LoginForm = (props: Props) => {
       )}
 
       <div className="col-md-12">
-        <label htmlFor="inputEmail" className="form-label">
+      <label htmlFor="inputEmail" className="form-label">
           <FormattedMessage id="email" />
         </label>
         <input
@@ -54,7 +51,6 @@ const LoginForm = (props: Props) => {
           value={formValues.email}
           onChange={(e) => setFormValues({ ...formValues, email: e.target.value })}
         />
-
         {!!validate?.email && (
           <small className="text-danger">
             <FormattedMessage id={validate?.email} />
