@@ -9,7 +9,7 @@ interface Props {
   errorMessage: string;
 }
 
-const LoginForm:React.FC<Props> = (props) => {
+const LoginForm: React.FC<Props> = (props) => {
   const { onLogin, loading, errorMessage } = props;
 
   const [formValues, setFormValues] = React.useState<ILoginParams>({ email: '', password: '', rememberMe: false });
@@ -41,7 +41,7 @@ const LoginForm:React.FC<Props> = (props) => {
       )}
 
       <div className="col-md-12">
-      <label htmlFor="inputEmail" className="form-label">
+        <label htmlFor="inputEmail" className="form-label">
           <FormattedMessage id="email" />
         </label>
         <input
@@ -100,9 +100,8 @@ const LoginForm:React.FC<Props> = (props) => {
             type="submit"
             style={{ minWidth: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             disabled={loading}
-          >
+          >Đăng nhập
             {loading && <div className="spinner-border spinner-border-sm text-light mr-2" role="status" />}
-            <FormattedMessage id="register" />
           </button>
         </div>
       </div>
